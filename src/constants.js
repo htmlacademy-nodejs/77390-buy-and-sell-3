@@ -4,6 +4,7 @@ const DEFAULT_COMMAND = '--help';
 const USER_ARGV_INDEX = 2;
 const ExitCode = {
   success: 0,
+  error: 1,
 };
 
 module.exports = {
