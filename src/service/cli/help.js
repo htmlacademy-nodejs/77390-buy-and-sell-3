@@ -1,5 +1,7 @@
 'use strict';
 
+const {log} = require(`../../utils/log`);
+
 const HELP_TEXT = `Программа запускает http-сервер и формирует файл с данными для API.
 
     Гайд:
@@ -13,6 +15,6 @@ const HELP_TEXT = `Программа запускает http-сервер и ф
 module.exports = {
   name: `--help`,
   run() {
-    console.info(HELP_TEXT);
+    log(HELP_TEXT, {status: `info`});
   }
 };

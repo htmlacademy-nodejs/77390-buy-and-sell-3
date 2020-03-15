@@ -2,10 +2,12 @@
 
 const fs = require(`fs`);
 
+const {log} = require(`../../utils/log`);
+
 const {
   getRandomInt,
   shuffle,
-} = require(`../../utils`);
+} = require(`../../utils/data`);
 
 const {
   ExitCode,
@@ -70,7 +72,7 @@ module.exports = {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
     if (countOffer > 1000) {
-      console.error(`Не больше 1000 объявлений`);
+      log(`Не больше 1000 объявлений`, {status: 'error'});
       process.exit(ExitCode.error);
     }
 
@@ -78,11 +80,10 @@ module.exports = {
 
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        console.error(`Can't write data to file...`);
+        log(`Не могу создать файл`, {status: 'error'});
         process.exit(ExitCode.error);
       }
-
-      console.info(`Operation success. File created.`);
+      log(`Успешно. Файл создан`, {status: 'info'});
     });
   }
 };
