@@ -11,13 +11,19 @@ const {
   ExitCode,
 } = require(`../../constants`);
 
-const {
-  TITLES,
-  SENTENCES,
-  CATEGORIES,
-  OfferType,
-  SumRestrict,
-} = require(`./generate-data-for-mock`);
+const titles = require(`../../data/titles`).data;
+const sentences = require(`../../data/sentences`).data;
+const categories = require(`../../data/categories`).data;
+
+const OfferType = {
+  offer: `offer`,
+  sale: `sale`,
+};
+
+const SumRestrict = {
+  min: 1000,
+  max: 100000,
+};
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
@@ -33,12 +39,12 @@ const getPictureFileName = () => {
 
 /**
  * Генерация массива категорий
- * @return {string[]}
+ * @return {[]}
  */
 const getCategories = () => {
-  return [...new Set(new Array(getRandomInt(1, CATEGORIES.length - 1))
+  return [...new Set(new Array(getRandomInt(1, categories.length - 1))
     .fill(undefined)
-    .map(() => CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]
+    .map(() => categories[getRandomInt(0, categories.length - 1)]
   ))]
 };
 
@@ -49,9 +55,9 @@ const getCategories = () => {
  */
 const generateOffers = (count) => (
   Array(count).fill({}).map(() => ({
-    title: TITLES[getRandomInt(0, TITLES.length - 1)],
+    title: titles[getRandomInt(0, titles.length - 1)],
     picture: getPictureFileName(),
-    description: shuffle(SENTENCES).slice(1, 5).join(` `),
+    description: shuffle(sentences).slice(1, 5).join(` `),
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     sum: getRandomInt(SumRestrict.min, SumRestrict.max),
     category: getCategories(),
