@@ -13,16 +13,12 @@ module.exports.getRandomInt = (min, max) => {
 };
 
 /**
- * Перетасовка массива алгоритмом тасования Фишера-Йетса
+ * Перетасовка массива
  * @param {array} someArray
  * @return {array}
  */
 module.exports.shuffle = (someArray) => {
-  const result = someArray.slice();
-  for (let i = result.length - 1; i > 0; i--) {
-    const randomPosition = Math.floor(Math.random() * i);
-    [result[i], result[randomPosition]] = [result[randomPosition], result[i]];
-  }
-
-  return result;
+  return someArray
+    .slice()
+    .sort(() => 0.5 - Math.random());
 };
