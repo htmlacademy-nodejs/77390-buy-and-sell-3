@@ -83,7 +83,7 @@ module.exports = {
         log(`Не могу создать файл`, {status: 'error'});
         process.exit(ExitCode.error);
       }
-      log(`Успешно. Файл создан`, {status: 'info'});
+      log(`Успешно. Файл создан`, {status: 'success'});
     });
   }
 };

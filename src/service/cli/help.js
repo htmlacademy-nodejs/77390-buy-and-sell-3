@@ -15,6 +15,6 @@ const HELP_TEXT = `Программа запускает http-сервер и ф
 module.exports = {
   name: `--help`,
   run() {
-    log(HELP_TEXT, {status: `info`});
+    log(HELP_TEXT, {color: `grey`});
   }
 };
