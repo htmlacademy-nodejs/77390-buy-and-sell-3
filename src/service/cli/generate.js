@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require(`fs`);
+const fs = require(`fs`).promises;
 
 const {log} = require(`../../utils/log`);
 
@@ -68,7 +68,7 @@ const generateOffers = (count) => (
 
 module.exports = {
   name: `--generate`,
-  run(args) {
+  async run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
     if (countOffer > 1000) {
@@ -78,12 +78,13 @@ module.exports = {
 
     const content = JSON.stringify(generateOffers(countOffer));
 
-    fs.writeFile(FILE_NAME, content, (err) => {
-      if (err) {
-        log(`Не могу создать файл`, {status: 'error'});
-        process.exit(ExitCode.error);
-      }
+    try {
+      await fs.writeFile(FILE_NAME, content);
       log(`Успешно. Файл создан`, {status: 'success'});
-    });
+    } catch (e) {
+      log(`Не могу создать файл: ${e}`, {status: 'error'});
+      process.exit(ExitCode.error);
+    }
+
   }
 };
