@@ -4,20 +4,23 @@ const colors = require(`colors`);
 
 colors.setTheme({
   default: `white`,
-  info: `green`,
+  info: `blue`,
+  success: `green`,
   warn: `yellow`,
   error: `red`,
-  debug: `blue`
+  debug: `blue`,
 });
 
 /**
  * Утилита логирования
  * @param {string} message
  * @param {object=} options
- * @param {'default' | 'info' | 'warn' | 'error' | 'debug'=} options.status?
+ * @param {'default' | 'info' | 'success' | 'warn' | 'error' | 'debug' | 'help' =} options.status?
+ * @param {string =} options.color?
  */
-const log = (message, options) => {
-  console.log(message[options && options.status || `default`]);
+const log = (message, options = {}) => {
+  const {color, status} = options;
+  console.log(message[color || status || `default`]);
 };
 
 module.exports = {
