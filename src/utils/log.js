@@ -20,7 +20,7 @@ colors.setTheme({
  */
 const log = (message, options = {}) => {
   const {color, status} = options;
-  console.log(message[color || status || `default`]);
+  console.log(message.toString()[color || status || `default`]);
 };
 
 module.exports = {
