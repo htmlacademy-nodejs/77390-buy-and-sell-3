@@ -53,28 +53,44 @@ const getCategories = (allCategories) => {
 };
 
 /**
- * Генерация массива случайных объявлений
- * @param {number} count
- * @return {object[]}
+ * @return {Promise<{sentences: Array, titles: Array, categories: Array}>}
  */
-const generateOffers = async (count) => {
+const getMockData = async () => {
   try {
     const [titles, sentences, categories] = await Promise.all([
       readFileToArray(FILE_TITLES_PATH),
       readFileToArray(FILE_SENTENCES_PATH),
       readFileToArray(FILE_CATEGORIES_PATH),
     ]);
-    return Array(count).fill({}).map(() => ({
-      title: titles[getRandomInt(0, titles.length - 1)],
-      picture: getPictureFileName(),
-      description: shuffle(sentences).slice(1, 5).join(` `),
-      type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
-      sum: getRandomInt(SumRestrict.min, SumRestrict.max),
-      category: getCategories(categories),
-    }))
+    return {
+      titles,
+      sentences,
+      categories,
+    };
   } catch (e) {
     throw e;
   }
+};
+
+/**
+ * Генерация массива случайных объявлений
+ * @param {array} data.titles
+ * @param {array} data.sentences
+ * @param {array} data.categories
+ * @param {object} data
+ * @param {number} count
+ * @return {object[]}
+ */
+const generateOffers = (data, count) => {
+  const {titles, sentences, categories} = data;
+  return Array(count).fill({}).map(() => ({
+    title: titles[getRandomInt(0, titles.length - 1)],
+    picture: getPictureFileName(),
+    description: shuffle(sentences).slice(1, 5).join(` `),
+    type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
+    sum: getRandomInt(SumRestrict.min, SumRestrict.max),
+    category: getCategories(categories),
+  }))
 };
 
 module.exports = {
@@ -90,9 +106,10 @@ module.exports = {
 
 
     try {
-      content = JSON.stringify(await generateOffers(countOffer));
+      const data = await getMockData();
+      content = JSON.stringify(generateOffers(data, countOffer));
     } catch (e) {
-      log(`Не могу прочитать контент: ${e}`, {status: 'error'});
+      log(`Не могу получить данные для генерации: ${e}`, {status: 'error'});
       process.exit(ExitCode.error);
     }
 
