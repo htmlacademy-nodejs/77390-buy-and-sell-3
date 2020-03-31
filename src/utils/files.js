@@ -9,7 +9,11 @@ const {log} = require('./log');
 const readFileToArray = async (filePath) => {
   try {
     const content = await fs.readFile(filePath, `utf8`);
-    return content.split(`\n`);
+    return content
+      .trim()
+      .split('\n')
+      .map(el => el.trim())
+      .filter(el => el !== '');
   } catch (e) {
     throw e;
   }
