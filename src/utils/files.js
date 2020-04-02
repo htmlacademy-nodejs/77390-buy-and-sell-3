@@ -1,5 +1,6 @@
+'use strict';
+
 const fs = require('fs').promises;
-const {log} = require('./log');
 
 /**
  * Чтение файла и возврат строк в виде массива
