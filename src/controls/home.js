@@ -5,7 +5,7 @@ require(`../utils/env`);
 
 const {sendHtmlResponse} = require(`../utils/server`);
 const {ctrlNotFound} = require(`./not-found`);
-const {HttpCode} = require(`../constants`);
+const {HttpCode} = require(`../constants/http`);
 
 const FILE_NAME = process.env.MOCK_DATA_FILE_NAME;
 

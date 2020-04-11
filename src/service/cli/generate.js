@@ -14,7 +14,7 @@ const {
 
 const {
   ExitCode,
-} = require(`../../constants`);
+} = require(`../../constants/cli`);
 
 const OfferType = {
   offer: `offer`,
