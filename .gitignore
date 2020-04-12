@@ -16,3 +16,6 @@ build/
 
 # Сгенерированные моки
 mocks.json
+
+.env.local
+.env.*.local

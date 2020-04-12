@@ -1,6 +1,7 @@
 'use strict';
 
 const http = require(`http`);
+require(`../../utils/env`);
 
 const {ctrlHome} = require(`../../controls/home`);
 const {ctrlNotFound} = require(`../../controls/not-found`);
@@ -8,7 +9,7 @@ const {ctrlNotFound} = require(`../../controls/not-found`);
 const {log} = require(`../../utils/log`);
 const colors = require(`colors/safe`);
 
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = process.env.DEFAULT_PORT;
 
 const onClientConnect = async (req, res) => {
   switch (req.url) {

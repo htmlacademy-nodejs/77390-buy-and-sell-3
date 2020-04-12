@@ -2,6 +2,7 @@
 
 const fs = require(`fs`).promises;
 const path = require(`path`);
+require(`../../utils/env`);
 
 const {log} = require(`../../utils/log`);
 const {readFileToArray} = require(`../../utils/files`);
@@ -13,7 +14,7 @@ const {
 
 const {
   ExitCode,
-} = require(`../../constants`);
+} = require(`../../constants/cli`);
 
 const OfferType = {
   offer: `offer`,
@@ -26,7 +27,7 @@ const SumRestrict = {
 };
 
 const DEFAULT_COUNT = 1;
-const FILE_NAME = `mocks.json`;
+const FILE_NAME = process.env.MOCK_DATA_FILE_NAME;
 
 const FILE_TITLES_PATH = path.join(__dirname, '..', '..', 'data', 'titles.txt');
 const FILE_SENTENCES_PATH = path.join(__dirname, '..', '..', 'data', 'sentences.txt');
