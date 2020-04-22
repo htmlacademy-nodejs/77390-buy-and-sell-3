@@ -2,6 +2,7 @@
 
 const fs = require(`fs`).promises;
 const path = require(`path`);
+const nanoid = require(`nanoid`).nanoid;
 require(`../../utils/env`);
 
 const {log} = require(`../../utils/log`);
@@ -85,6 +86,7 @@ const getMockData = async () => {
 const generateOffers = (data, count) => {
   const {titles, sentences, categories} = data;
   return Array(count).fill({}).map(() => ({
+    id: nanoid(),
     title: titles[getRandomInt(0, titles.length - 1)],
     picture: getPictureFileName(),
     description: shuffle(sentences).slice(1, 5).join(` `),
