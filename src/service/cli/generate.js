@@ -6,7 +6,9 @@ const nanoid = require(`nanoid`).nanoid;
 require(`../../utils/env`);
 
 const {log} = require(`../../utils/log`);
-const {readFileToArray} = require(`../../utils/files`);
+const {
+  readFileToArray,
+} = require(`../../utils/files`);
 
 const {
   getRandomInt,
@@ -16,6 +18,10 @@ const {
 const {
   ExitCode,
 } = require(`../../constants/cli`);
+
+const {
+  PATH_TO_DATA,
+} = require(`../../constants/files`);
 
 const OfferType = {
   offer: `offer`,
@@ -31,10 +37,10 @@ const DEFAULT_COUNT = 1;
 const FILE_NAME = process.env.MOCK_DATA_FILE_NAME;
 const MAX_COMMENTS = 5;
 
-const FILE_TITLES_PATH = path.join(__dirname, '..', '..', 'data', 'titles.txt');
-const FILE_SENTENCES_PATH = path.join(__dirname, '..', '..', 'data', 'sentences.txt');
-const FILE_CATEGORIES_PATH = path.join(__dirname, '..', '..', 'data', 'categories.txt');
-const FILE_COMMENTS_PATH = path.join(__dirname, '..', '..', 'data', 'comments.txt');
+const FILE_TITLES_PATH = path.join(PATH_TO_DATA, 'titles.txt');
+const FILE_SENTENCES_PATH = path.join(PATH_TO_DATA, 'sentences.txt');
+const FILE_CATEGORIES_PATH = path.join(PATH_TO_DATA, 'categories.txt');
+const FILE_COMMENTS_PATH = path.join(PATH_TO_DATA, 'comments.txt');
 /**
  * Генерация рандомного имени для изображения
  * @return {string}
