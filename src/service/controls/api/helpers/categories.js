@@ -8,7 +8,7 @@ const {
 
 const {
   PATH_TO_DATA,
-} = require(`../../../../constants/files`);
+} = require(`../../../../constants/paths`);
 
 const FILE_CATEGORIES_PATH = path.join(PATH_TO_DATA, 'categories.txt');
 
