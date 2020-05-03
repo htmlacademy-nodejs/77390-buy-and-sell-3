@@ -1,7 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
-const router = Router();
+const router = new Router();
 const routerOffers = require(`./offers`);
 const routerCategories = require(`./categories`);
 const routerSearch = require(`./search`);

@@ -29,7 +29,7 @@ const ctrlAddOffer = async (req, res) => {
     const offer = {
       id: nanoid(),
       ...req.body.item,
-    }
+    };
     offers.push(offer);
     res.json(getItemSuccessResponse(offer));
   } catch (err) {
@@ -42,7 +42,7 @@ const ctrlAddOffer = async (req, res) => {
 const ctrlGetOffer = async (req, res) => {
   try {
     const id = req.params.offerId;
-    const offer = offers.find(it => it.id === id);
+    const offer = offers.find((it) => it.id === id);
     if (offer) {
       res.json(getItemSuccessResponse(offer));
     } else {
@@ -61,7 +61,7 @@ const ctrlUpdateOffer = async (req, res) => {
   try {
     const id = req.params.offerId;
     const newOffer = req.body.item;
-    const index = offers.findIndex(it => it.id === id);
+    const index = offers.findIndex((it) => it.id === id);
     if (index !== -1) {
       const offer = {
         ...offers[index],
@@ -84,7 +84,7 @@ const ctrlUpdateOffer = async (req, res) => {
 const ctrlRemoveOffer = async (req, res) => {
   try {
     const id = req.params.offerId;
-    const index = offers.findIndex(it => it.id === id);
+    const index = offers.findIndex((it) => it.id === id);
     if (index !== -1) {
       offers.splice(index, 1);
     }
@@ -100,7 +100,7 @@ const ctrlRemoveOffer = async (req, res) => {
 const ctrlGetOfferComments = async (req, res) => {
   try {
     const id = req.params.offerId;
-    const offer = offers.find(it => it.id === id);
+    const offer = offers.find((it) => it.id === id);
     if (offer) {
       const comments = offer.comments || [];
       res.json(getItemsSuccessResponse(comments, {total: comments.length}));
@@ -119,7 +119,7 @@ const ctrlGetOfferComments = async (req, res) => {
 const ctrlAddOfferComment = async (req, res) => {
   try {
     const id = req.params.offerId;
-    const offer = offers.find(it => it.id === id);
+    const offer = offers.find((it) => it.id === id);
     if (offer) {
       const comments = offer.comments || [];
       const comment = {
@@ -146,10 +146,10 @@ const ctrlRemoveOfferComment = async (req, res) => {
   try {
     const offerId = req.params.offerId;
     const commentId = req.params.commentId;
-    const offer = offers.find(it => it.id === offerId);
+    const offer = offers.find((it) => it.id === offerId);
     if (offer) {
       const comments = offer.comments || [];
-      const commentIndex = comments.findIndex(it => it.id === commentId);
+      const commentIndex = comments.findIndex((it) => it.id === commentId);
       if (commentIndex !== -1) {
         comments.splice(commentIndex, 1);
       }

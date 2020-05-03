@@ -14,7 +14,6 @@ const DEFAULT_PORT = process.env.DEFAULT_PORT;
 
 const app = express();
 app.use(express.json());
-// app.use(app.router);
 
 app.use(`/offers`, routesOffers);
 app.use(`/api`, routesApi);
@@ -28,7 +27,7 @@ module.exports = {
 
     app.listen(port, (err) => {
       if (err) {
-        return log(`Ошибка при создании сервера: ${err}`, {status: 'error'});
+        return log(`Ошибка при создании сервера: ${err}`, {status: `error`});
       }
 
       return console.info(colors.green(`Ожидаю соединений на ${port}`));

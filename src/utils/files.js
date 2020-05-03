@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs').promises;
+const fs = require(`fs`).promises;
 
 /**
  * Чтение файла и возврат строк в виде массива
@@ -12,9 +12,9 @@ const readFileToArray = async (filePath) => {
     const content = await fs.readFile(filePath, `utf8`);
     return content
       .trim()
-      .split('\n')
-      .map(el => el.trim())
-      .filter(el => el !== '');
+      .split(`\n`)
+      .map((el) => el.trim())
+      .filter((el) => el !== ``);
   } catch (e) {
     throw e;
   }

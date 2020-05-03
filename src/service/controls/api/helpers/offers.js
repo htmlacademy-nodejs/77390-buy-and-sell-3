@@ -13,4 +13,4 @@ const offers = getAllOffers();
 
 module.exports = {
   offers,
-}
+};

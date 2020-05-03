@@ -10,7 +10,7 @@ const {
   PATH_TO_DATA,
 } = require(`../../../../constants/paths`);
 
-const FILE_CATEGORIES_PATH = path.join(PATH_TO_DATA, 'categories.txt');
+const FILE_CATEGORIES_PATH = path.join(PATH_TO_DATA, `categories.txt`);
 
 const getCategories = () => {
   return readFileToArray(FILE_CATEGORIES_PATH);
@@ -18,4 +18,4 @@ const getCategories = () => {
 
 module.exports = {
   getCategories,
-}
+};
