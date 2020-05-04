@@ -10,7 +10,7 @@ const HELP_TEXT = `Программа запускает http-сервер и ф
     Команды:
     --version:            выводит номер версии
     --help:               печатает этот текст
-    --generate <count>    формирует файл mocks.json
+    --generate <count> [beautiful]    формирует файл mocks.json
     --server <port>       запуск http-сервера
 `;
 

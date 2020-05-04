@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "required": [
+    "title",
+    "categories",
+    "description",
+    "sum"
+  ],
+  "errorMessage": {
+    "required": "Обязательное поле"
+  },
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 100,
+      "errorMessage": {
+        "minLength": "Минимум 10 символов",
+        "maxLength": "Максимум 200 символов"
+      }
+    },
+    "picture": {
+      "type": "string"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "description": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 1000,
+      "errorMessage": {
+        "minLength": "Минимум 50 символов",
+        "maxLength": "Максимум 1000 символов"
+      }
+    },
+    "sum": {
+      "type": "number",
+      "minimum": 100,
+      "errorMessage": {
+        "minimum": "Минимум 100"
+      }
+    }
+  }
+}

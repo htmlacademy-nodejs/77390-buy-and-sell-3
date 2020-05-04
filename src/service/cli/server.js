@@ -4,6 +4,7 @@ const express = require(`express`);
 require(`../../utils/env`);
 
 const routesOffers = require(`../routes/offers`);
+const routesApi = require(`../routes/api`);
 const {ctrlNotFound} = require(`../controls/not-found`);
 
 const {log} = require(`../../utils/log`);
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use(`/offers`, routesOffers);
+app.use(`/api`, routesApi);
 app.use(ctrlNotFound);
 
 module.exports = {
@@ -25,7 +27,7 @@ module.exports = {
 
     app.listen(port, (err) => {
       if (err) {
-        return log(`Ошибка при создании сервера: ${err}`, {status: 'error'});
+        return log(`Ошибка при создании сервера: ${err}`, {status: `error`});
       }
 
       return console.info(colors.green(`Ожидаю соединений на ${port}`));

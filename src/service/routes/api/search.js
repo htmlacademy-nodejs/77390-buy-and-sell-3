@@ -2,8 +2,10 @@
 
 const {Router} = require(`express`);
 const router = new Router();
-const {ctrlOffersMain} = require(`../controls/offers`);
+const {
+  ctrlSearch,
+} = require(`../../controls/api/search`);
 
-router.get(`/`, ctrlOffersMain);
+router.get(`/`, ctrlSearch);
 
 module.exports = router;
