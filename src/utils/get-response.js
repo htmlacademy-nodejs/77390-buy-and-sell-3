@@ -53,9 +53,36 @@ const getErrorResponse = (message, status, others = {}) => {
   };
 };
 
+
+const _getField = (error, message) => {
+  const id = error.dataPath ? error.dataPath.split(`/`)[1] : error.params.missingProperty;
+  return {
+    id,
+    message,
+  };
+};
+/**
+ * Формирование полей с ошибками на основе ошибок avj
+ * @param {{}} errors Ошибки валидации ajv
+ * @return {{id: string, message: string}[]} Поля с ошибкам
+ */
+const getFailFields = (errors) => {
+  const result = [];
+  errors.forEach((error) => {
+    const message = error.message;
+    if (error.params && error.params.errors && error.params.errors.length) {
+      result.push(...error.params.errors.map((e) => _getField(e, message)));
+    } else {
+      result.push(_getField(error, message));
+    }
+  });
+  return result;
+};
+
 module.exports = {
   getSuccessResponse,
   getItemsSuccessResponse,
   getItemSuccessResponse,
   getErrorResponse,
+  getFailFields,
 };

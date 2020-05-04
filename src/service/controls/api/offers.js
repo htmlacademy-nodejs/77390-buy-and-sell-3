@@ -1,6 +1,8 @@
 'use strict';
 
 const nanoid = require(`nanoid`).nanoid;
+const Ajv = require(`ajv`);
+
 const {
   offers,
 } = require(`./helpers/offers`);
@@ -8,13 +10,20 @@ const {HttpCode} = require(`../../../constants/http`);
 const {
   MESSAGE_INTERNAL_SERVER_ERROR,
   MESSAGE_OFFER_NOT_FOUND,
+  MESSAGE_OFFER_BED_FIELD,
 } = require(`../../../constants/messages`);
 
 const {
   getItemsSuccessResponse,
   getItemSuccessResponse,
   getErrorResponse,
+  getFailFields,
 } = require(`../../../utils/get-response`);
+
+const schemaOffers = require(`../../../schemas/offers.json`);
+
+const ajv = new Ajv({allErrors: true, jsonPointers: true});
+require(`ajv-errors`)(ajv, {singleError: false});
 
 const ctrlGetOffers = async (req, res) => {
   try {
@@ -30,8 +39,17 @@ const ctrlAddOffer = async (req, res) => {
       id: nanoid(),
       ...req.body.item,
     };
-    offers.push(offer);
-    res.json(getItemSuccessResponse(offer));
+    const valid = ajv.validate(schemaOffers, offer);
+    if (!valid) {
+      res
+        .status(HttpCode.BAD_REQUEST)
+        .json(getErrorResponse(MESSAGE_OFFER_BED_FIELD, HttpCode.BAD_REQUEST, {
+          failFields: getFailFields(ajv.errors),
+        }));
+    } else {
+      offers.push(offer);
+      res.json(getItemSuccessResponse(offer));
+    }
   } catch (err) {
     res
       .status(HttpCode.INTERNAL_SERVER_ERROR)
@@ -67,8 +85,17 @@ const ctrlUpdateOffer = async (req, res) => {
         ...offers[index],
         ...newOffer,
       };
-      offers[index] = offer;
-      res.json(getItemSuccessResponse(offer));
+      const valid = ajv.validate(schemaOffers, offer);
+      if (!valid) {
+        res
+          .status(HttpCode.BAD_REQUEST)
+          .json(getErrorResponse(MESSAGE_OFFER_BED_FIELD, HttpCode.BAD_REQUEST, {
+            failFields: getFailFields(ajv.errors),
+          }));
+      } else {
+        offers[index] = offer;
+        res.json(getItemSuccessResponse(offer));
+      }
     } else {
       res
         .status(HttpCode.NOT_FOUND)
