@@ -1,23 +1,11 @@
 'use strict';
 
-const express = require(`express`);
-require(`../../utils/env`);
-
-const routesOffers = require(`../routes/offers`);
-const routesApi = require(`../routes/api`);
-const {ctrlNotFound} = require(`../controls/not-found`);
-
-const {log} = require(`../../utils/log`);
+const {log} = require(`../../../utils/log`);
 const colors = require(`colors/safe`);
+require(`../../../utils/env`);
+const {app} = require(`./server`);
 
 const DEFAULT_PORT = process.env.DEFAULT_PORT;
-
-const app = express();
-app.use(express.json());
-
-app.use(`/offers`, routesOffers);
-app.use(`/api`, routesApi);
-app.use(ctrlNotFound);
 
 module.exports = {
   name: `--server`,
