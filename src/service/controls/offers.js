@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require(`fs`).promises;
 require(`../../utils/env`);
+const fs = require(`fs`).promises;
 
 const {getItemsSuccessResponse} = require(`../../utils/get-response`);
 

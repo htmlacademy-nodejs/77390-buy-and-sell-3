@@ -1,10 +1,8 @@
 'use strict';
 
-const {log} = require(`../../../utils/log`);
-const colors = require(`colors/safe`);
 require(`../../../utils/env`);
 const {app} = require(`./server`);
-
+const logger = require(`../../../utils/logger`).getLogger();
 const DEFAULT_PORT = process.env.DEFAULT_PORT;
 
 module.exports = {
@@ -15,10 +13,10 @@ module.exports = {
 
     app.listen(port, (err) => {
       if (err) {
-        return log(`Ошибка при создании сервера: ${err}`, {status: `error`});
+        return logger.error(`Ошибка при создании сервера: ${err}`);
       }
 
-      return console.info(colors.green(`Ожидаю соединений на ${port}`));
+      return logger.info(`Ожидаю соединений на ${port} info 2`);
     });
   }
 };

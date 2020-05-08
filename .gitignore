@@ -19,3 +19,6 @@ mocks.json
 
 .env.local
 .env.*.local
+
+# Логи
+src/service/logs
