@@ -16,7 +16,7 @@ module.exports = {
         return logger.error(`Ошибка при создании сервера: ${err}`);
       }
 
-      return logger.info(`Ожидаю соединений на ${port} info 2`);
+      return logger.info(`Ожидаю соединений на ${port}`);
     });
   }
 };

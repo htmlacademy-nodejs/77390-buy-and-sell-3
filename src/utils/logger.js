@@ -16,6 +16,10 @@ const prettyStream = pinoms.prettyStream({
   }
 });
 
+if (!fs.existsSync(PATH_TO_LOGS)) {
+  fs.mkdirSync(PATH_TO_LOGS);
+}
+
 const streams = [
   {level, stream: prettyStream},
   {level, stream: fs.createWriteStream(path.join(PATH_TO_LOGS, `${level}.stream.out`))},
