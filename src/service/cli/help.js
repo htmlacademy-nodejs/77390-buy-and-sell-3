@@ -1,6 +1,6 @@
 'use strict';
 
-const {log} = require(`../../utils/log`);
+const {print} = require(`../../utils/print`);
 
 const HELP_TEXT = `Программа запускает http-сервер и формирует файл с данными для API.
 
@@ -17,6 +17,6 @@ const HELP_TEXT = `Программа запускает http-сервер и ф
 module.exports = {
   name: `--help`,
   run() {
-    log(HELP_TEXT, {color: `grey`});
+    print(HELP_TEXT, {color: `grey`});
   }
 };

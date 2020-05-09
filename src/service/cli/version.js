@@ -1,6 +1,6 @@
 'use strict';
 
-const {log} = require(`../../utils/log`);
+const {print} = require(`../../utils/print`);
 
 const packageJsonFile = require(`../../../package`);
 const version = packageJsonFile.version;
@@ -8,6 +8,6 @@ const version = packageJsonFile.version;
 module.exports = {
   name: `--version`,
   run() {
-    log(version, {status: `info`});
+    print(version, {status: `info`});
   }
 };
