@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require(`fs`);
 require(`../../../../utils/env`);
+const fs = require(`fs`);
 const FILE_NAME = process.env.MOCK_DATA_FILE_NAME;
 
 const getAllOffers = () => {
