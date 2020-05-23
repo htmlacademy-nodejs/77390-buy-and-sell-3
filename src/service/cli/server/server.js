@@ -1,6 +1,6 @@
 'use strict';
 
-require(`../../../utils/env`)
+require(`../../../utils/env`);
 const express = require(`express`);
 
 const routesOffers = require(`../../routes/offers`);

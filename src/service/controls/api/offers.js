@@ -68,7 +68,6 @@ const ctrlGetOffers = async (req, res) => {
     _offers = _offers.slice(offsetStart || 0, offsetEnd);
     res.json(getItemsSuccessResponse(_offers, {total: _offers.length}));
   } catch (err) {
-    console.log(err);
     res.json(getItemsSuccessResponse([], {total: 0}));
   }
 };
