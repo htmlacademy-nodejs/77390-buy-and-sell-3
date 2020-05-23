@@ -2,10 +2,14 @@
 
 const {Router} = require(`express`);
 const router = new Router();
+const {ctrlMain} = require(`../controls/main`);
+const {ctrlRegister} = require(`../controls/register`);
+const {ctrlLogin} = require(`../controls/login`);
+const {ctrlSearch} = require(`../controls/search`);
 
-router.get(`/`, (req, res) => res.render(`main`));
-router.get(`/register`, (req, res) => res.render(`sign-up`));
-router.get(`/login`, (req, res) => res.render(`login`));
-router.get(`/search`, (req, res) => res.render(`search-result`));
+router.get(`/`, ctrlMain);
+router.get(`/register`, ctrlRegister);
+router.get(`/login`, ctrlLogin);
+router.get(`/search`, ctrlSearch);
 
 module.exports = router;

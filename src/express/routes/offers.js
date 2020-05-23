@@ -1,11 +1,20 @@
 'use strict';
 
 const {Router} = require(`express`);
+const {upload} = require(`../middlewares/upload`);
 const router = new Router();
+const {
+  ctrlOffersCategory,
+  ctrlOfferAddGet,
+  ctrlOfferAddPost,
+  ctrlOfferEdit,
+  ctrlOfferGet,
+} = require(`../controls/offers`);
 
-router.get(`/category/:id`, (req, res) => res.render(`category`));
-router.get(`/add`, (req, res) => res.render(`new-ticket`));
-router.get(`/edit/:id`, (req, res) => res.render(`ticket-edit`));
-router.get(`/:id`, (req, res) => res.render(`ticket`));
+router.get(`/category/:id`, ctrlOffersCategory);
+router.get(`/add`, ctrlOfferAddGet);
+router.post(`/add`, upload.single(`avatar`), ctrlOfferAddPost);
+router.get(`/edit/:id`, ctrlOfferEdit);
+router.get(`/:id`, ctrlOfferGet);
 
 module.exports = router;

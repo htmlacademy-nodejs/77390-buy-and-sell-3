@@ -9,7 +9,7 @@ const offersRoutes = require(`./routes/offers`);
 const myRoutes = require(`./routes/my`);
 const mainRoutes = require(`./routes/main`);
 
-const PORT = process.env.DEFAULT_PORT_FRONT_SERVER;
+const PORT = process.env.PORT_FRONT_SERVER;
 const PUBLIC_DIR = `public`;
 
 const app = express();

@@ -3,13 +3,13 @@
 require(`../../../utils/env`);
 const {app} = require(`./server`);
 const logger = require(`../../../utils/logger`).getLogger();
-const DEFAULT_PORT = process.env.DEFAULT_PORT;
+const PORT_SERVICE_SERVER = process.env.PORT_SERVICE_SERVER;
 
 module.exports = {
   name: `--server`,
   run(args) {
     const [customPort] = args;
-    const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;
+    const port = Number.parseInt(customPort, 10) || PORT_SERVICE_SERVER;
 
     app.listen(port, (err) => {
       if (err) {
