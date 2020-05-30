@@ -9,7 +9,7 @@ const ctrlOffersCategory = async (req, res) => {
   return res.render(`category`);
 };
 
-const ctrlOfferAddGet = async (req, res) => {
+const ctrlOfferAddRender = async (req, res) => {
   try {
     let {error, failFields, item} = req.query;
     const failFieldsById = failFields ? JSON.parse(failFields).reduce((acc, field) => {
@@ -27,7 +27,7 @@ const ctrlOfferAddGet = async (req, res) => {
   }
 };
 
-const ctrlOfferAddPost = async (req, res) => {
+const ctrlOfferAddSend = async (req, res) => {
   const {categories} = req.body;
   const {file} = req;
   const item = {
@@ -39,8 +39,7 @@ const ctrlOfferAddPost = async (req, res) => {
     file,
   };
   try {
-    await addOffer(item)
-      .then((response) => response.data.item);
+    await addOffer(item);
     return res.redirect(`/my`);
   } catch (e) {
     if (file && file.path) {
@@ -82,8 +81,8 @@ const ctrlOfferGet = async (req, res) => {
 
 module.exports = {
   ctrlOffersCategory,
-  ctrlOfferAddGet,
-  ctrlOfferAddPost,
+  ctrlOfferAddRender,
+  ctrlOfferAddSend,
   ctrlOfferEdit,
   ctrlOfferGet,
 };

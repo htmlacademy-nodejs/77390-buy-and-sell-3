@@ -5,15 +5,15 @@ const {upload} = require(`../middlewares/upload`);
 const router = new Router();
 const {
   ctrlOffersCategory,
-  ctrlOfferAddGet,
-  ctrlOfferAddPost,
+  ctrlOfferAddRender,
+  ctrlOfferAddSend,
   ctrlOfferEdit,
   ctrlOfferGet,
 } = require(`../controls/offers`);
 
 router.get(`/category/:id`, ctrlOffersCategory);
-router.get(`/add`, ctrlOfferAddGet);
-router.post(`/add`, upload.single(`avatar`), ctrlOfferAddPost);
+router.get(`/add`, ctrlOfferAddRender);
+router.post(`/add`, upload.single(`avatar`), ctrlOfferAddSend);
 router.get(`/edit/:id`, ctrlOfferEdit);
 router.get(`/:id`, ctrlOfferGet);
 
