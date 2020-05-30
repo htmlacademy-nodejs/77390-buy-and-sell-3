@@ -1,17 +1,26 @@
 'use strict';
 
+require(`../../../utils/env`);
 const nanoid = require(`nanoid`).nanoid;
 const Ajv = require(`ajv`);
+const formatDate = require(`date-fns/format`);
+const compareDateAsc = require(`date-fns/compareAsc`);
+const compareDateDesc = require(`date-fns/compareDesc`);
+const parseDate = require(`date-fns/parse`);
 
 const {
   offers,
 } = require(`./helpers/offers`);
+const {
+  getPictureUrl,
+} = require(`./helpers/files`);
 const {HttpCode} = require(`../../../constants/http`);
 const {
   MESSAGE_INTERNAL_SERVER_ERROR,
   MESSAGE_OFFER_NOT_FOUND,
   MESSAGE_OFFER_BED_FIELD,
 } = require(`../../../constants/messages`);
+const {DATE_FORMAT} = require(`../../../constants/dates`);
 
 const {
   getItemsSuccessResponse,
@@ -26,8 +35,38 @@ const ajv = new Ajv({allErrors: true, jsonPointers: true});
 require(`ajv-errors`)(ajv, {singleError: false});
 
 const ctrlGetOffers = async (req, res) => {
+  const {
+    sortDirection,
+    sortBy,
+    offsetStart,
+    offsetEnd,
+  } = req.query;
   try {
-    res.json(getItemsSuccessResponse(offers, {total: offers.length}));
+    let _offers = [...offers];
+    if (sortBy) {
+      if (sortBy === `comments`) {
+        _offers.sort((a, b) => {
+          return sortDirection === `asc` ?
+            a.comments.length - b.comments.length :
+            b.comments.length - a.comments.length;
+        });
+      }
+      if (sortBy === `createdDate`) {
+        _offers.sort((a, b) => {
+          return sortDirection === `asc` ?
+            compareDateAsc(
+                parseDate(a.createdDate, DATE_FORMAT, Date.now()),
+                parseDate(b.createdDate, DATE_FORMAT, Date.now())
+            ) :
+            compareDateDesc(
+                parseDate(a.createdDate, DATE_FORMAT, Date.now()),
+                parseDate(b.createdDate, DATE_FORMAT, Date.now())
+            );
+        });
+      }
+    }
+    _offers = _offers.slice(offsetStart || 0, offsetEnd);
+    res.json(getItemsSuccessResponse(_offers, {total: _offers.length}));
   } catch (err) {
     res.json(getItemsSuccessResponse([], {total: 0}));
   }
@@ -35,9 +74,13 @@ const ctrlGetOffers = async (req, res) => {
 
 const ctrlAddOffer = async (req, res) => {
   try {
+    const {file} = req.body.item;
+    const picture = getPictureUrl(file);
     const offer = {
       id: nanoid(),
       ...req.body.item,
+      picture,
+      createdDate: req.body.item.createDate || formatDate(Date.now(), DATE_FORMAT),
     };
     const valid = ajv.validate(schemaOffers, offer);
     if (!valid) {

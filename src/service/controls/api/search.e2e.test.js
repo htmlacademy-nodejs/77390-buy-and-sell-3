@@ -37,4 +37,13 @@ describe(`Search API end-points`, () => {
     const items = res.body.data.items;
     expect(items).toEqual(expect.arrayContaining([addedOffer]));
   });
+
+  test(`When requesting with offsetEnd and offsetStart response.items should contain not more than offsetEnd - offsetStart items`, async () => {
+    const offsetStart = 0;
+    const offsetEnd = 8;
+    const count = offsetEnd - offsetStart;
+    const _res = await request(app).get(encodeURI(`/api/search?query=${newOffer.title}&offsetStart=${offsetStart}&offsetEnd=${offsetEnd}`));
+    const items = _res.body.data.items;
+    expect(items.length).toBeLessThanOrEqual(count);
+  });
 });

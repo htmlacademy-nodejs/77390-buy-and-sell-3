@@ -1,9 +1,11 @@
 'use strict';
 
+require(`../../utils/env`);
 const fs = require(`fs`).promises;
 const path = require(`path`);
 const nanoid = require(`nanoid`).nanoid;
-require(`../../utils/env`);
+const addDate = require(`date-fns/add`);
+const formatDate = require(`date-fns/format`);
 
 const {print} = require(`../../utils/print`);
 const {
@@ -23,6 +25,10 @@ const {
   PATH_TO_DATA,
 } = require(`../../constants/paths`);
 
+const {
+  DATE_FORMAT,
+} = require(`../../constants/dates`);
+
 const OfferType = {
   offer: `offer`,
   sale: `sale`,
@@ -36,6 +42,10 @@ const SumRestrict = {
 const DEFAULT_COUNT = 1;
 const FILE_NAME = process.env.MOCK_DATA_FILE_NAME;
 const MAX_COMMENTS = 5;
+const today = Date.now();
+const minCreatedDate = +addDate(today, {
+  months: -3,
+});
 
 const FILE_TITLES_PATH = path.join(PATH_TO_DATA, `titles.txt`);
 const FILE_SENTENCES_PATH = path.join(PATH_TO_DATA, `sentences.txt`);
@@ -46,8 +56,8 @@ const FILE_COMMENTS_PATH = path.join(PATH_TO_DATA, `comments.txt`);
  * @return {string}
  */
 const getPictureFileName = () => {
-  const number = getRandomInt(0, 16);
-  return number >= 10 ? `item${number}.jpg` : `item0${number}.jpg`;
+  const number = getRandomInt(1, 16);
+  return number >= 10 ? `img/item${number}.jpg` : `img/item0${number}.jpg`;
 };
 
 /**
@@ -102,6 +112,14 @@ const generateComments = (comments) => {
 };
 
 /**
+ * Генерация даты поста
+ * @return {string}
+ */
+const getDate = () => {
+  return formatDate(getRandomInt(minCreatedDate, today), DATE_FORMAT);
+};
+
+/**
  * Генерация массива случайных объявлений
  * @param {array} data.titles
  * @param {array} data.sentences
@@ -119,8 +137,9 @@ const generateOffers = (data, count) => {
     description: shuffle(sentences).slice(1, 5).join(` `),
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     sum: getRandomInt(SumRestrict.min, SumRestrict.max),
-    category: getCategories(categories),
+    categories: getCategories(categories),
     comments: generateComments(comments),
+    createdDate: getDate(),
   }));
 };
 

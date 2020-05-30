@@ -2,6 +2,7 @@
 
 const request = require(`supertest`);
 const {app} = require(`../../cli/server/server`);
+const {sleep} = require(`../../../utils/async`);
 
 const newOffer = {
   title: `Продам хорошую квартиру`,
@@ -59,6 +60,7 @@ describe(`Add offer`, () => {
     expect(item).toHaveProperty(`categories`);
     expect(item).toHaveProperty(`sum`);
     expect(item).toHaveProperty(`description`);
+    expect(item).toHaveProperty(`createdDate`);
   });
 
   test(`When add offer the response contain item equal newOffer`, () => {
@@ -171,6 +173,7 @@ describe(`Update offer`, () => {
     expect(item).toHaveProperty(`categories`);
     expect(item).toHaveProperty(`sum`);
     expect(item).toHaveProperty(`description`);
+    expect(item).toHaveProperty(`createdDate`);
   });
 
   test(`When add offer the response contain item equal newOffer`, () => {
@@ -296,5 +299,63 @@ describe(`Remove comments`, () => {
     const res = await request(app).get(`/api/offers/${addedOffer.id}/comments/`);
     const comments = res.body.data.items;
     expect(comments.some((it) => it.id === addedComment.id)).toBeFalsy();
+  });
+});
+
+
+describe(`Get some offers`, () => {
+  let addedOfferFirst;
+  let addedOfferSecond;
+
+  beforeAll(async () => {
+    const resAddFirst = await request(app)
+      .post(`/api/offers`)
+      .send({item: newOffer});
+    addedOfferFirst = resAddFirst.body.data.item;
+    await Promise.all([
+      await sleep(2000),
+      await request(app).post(`/api/offers/${addedOfferFirst.id}/comments`)
+        .send({item: newComment}),
+      await request(app).post(`/api/offers/${addedOfferFirst.id}/comments`)
+        .send({item: newComment}),
+    ]);
+
+    const resAddSecond = await request(app)
+      .post(`/api/offers`)
+      .send({item: newOffer});
+    addedOfferSecond = resAddSecond.body.data.item;
+    await request(app).post(`/api/offers/${addedOfferSecond.id}/comments`)
+      .send({item: newComment});
+  });
+  afterAll(async () => {
+    await Promise.all([
+      await request(app).delete(`/api/offers/${addedOfferFirst.id}`),
+      await request(app).delete(`/api/offers/${addedOfferSecond.id}`),
+    ]);
+  });
+
+  test(`When requesting DiscussedOffers addedOfferFirst should before addedOfferSecond`, async () => {
+    const res = await request(app).get(`/api/offers?sortBy=comments&sortDirection=desc`);
+    const items = res.body.data.items;
+    const indexFirst = items.findIndex((it) => it.id === addedOfferFirst.id);
+    const indexSecond = items.findIndex((it) => it.id === addedOfferSecond.id);
+    expect(indexFirst).toBeLessThan(indexSecond);
+  });
+
+  test(`When requesting RecentlyOffers addedOfferFirst should after addedOfferSecond`, async () => {
+    const res = await request(app).get(`/api/offers?sortBy=createdDate&sortDirection=desc`);
+    const items = res.body.data.items;
+    const indexFirst = items.findIndex((it) => it.id === addedOfferFirst.id);
+    const indexSecond = items.findIndex((it) => it.id === addedOfferSecond.id);
+    expect(indexFirst).toBeGreaterThan(indexSecond);
+  });
+
+  test(`When requesting with offsetEnd and offsetStart response.items should contain not more than offsetEnd - offsetStart items`, async () => {
+    const offsetStart = 0;
+    const offsetEnd = 8;
+    const count = offsetEnd - offsetStart;
+    const res = await request(app).get(encodeURI(`/api/offers?offsetStart=${offsetStart}&offsetEnd=${offsetEnd}`));
+    const items = res.body.data.items;
+    expect(items.length).toBeLessThanOrEqual(count);
   });
 });

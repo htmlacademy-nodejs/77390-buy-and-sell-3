@@ -22,3 +22,6 @@ mocks.json
 
 # Логи
 src/service/logs
+
+# Загружаемые данные
+/uploads
